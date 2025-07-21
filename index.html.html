@@ -575,6 +575,47 @@
             .converter-grid .btn {
                 grid-column: 1;
             }
+            
+            #activityTime {
+                margin-top: 10px;
+            }
+        }
+
+        /* Additional styles moved from inline */
+        .empty-card {
+            text-align: center;
+            padding: 40px;
+        }
+        
+        .empty-card i {
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+        
+        .itinerary-item-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        
+        .itinerary-item-details {
+            flex: 1;
+        }
+        
+        .document-form-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .conversion-result {
+            font-size: 1.5rem;
+            margin: 10px 0;
+        }
+        
+        .conversion-rate {
+            font-size: 0.9rem;
+            color: #666;
         }
     </style>
 </head>
@@ -637,11 +678,10 @@
             <div class="form-group">
                 <label><i class="fas fa-plus-circle"></i> Add Activity</label>
                 <input type="text" id="activityName" placeholder="Activity name">
-                <input type="time" id="activityTime" style="margin-top: 10px;">
-                <input type="text" id="activityLocation" placeholder="Location" style="margin-top: 10px;">
-                <input type="number" id="activityCost" placeholder="Estimated cost (₹)" style="margin-top: 10px;">
-                <button class="btn" onclick="addItineraryItem()" style="margin-top: 10px;"><i class="fas fa-plus"></i>
-                    Add Activity</button>
+                <input type="time" id="activityTime">
+                <input type="text" id="activityLocation" placeholder="Location">
+                <input type="number" id="activityCost" placeholder="Estimated cost (₹)">
+                <button class="btn" onclick="addItineraryItem()"><i class="fas fa-plus"></i> Add Activity</button>
             </div>
 
             <div id="itineraryList"></div>
@@ -682,10 +722,10 @@
                     <div class="checklist" id="dayBefore"></div>
                 </div>
             </div>
-            <div style="margin-top: 20px;">
+            <div>
                 <h3><i class="fas fa-tasks"></i> Progress</h3>
                 <div class="progress-bar">
-                    <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+                    <div class="progress-fill" id="progressFill"></div>
                 </div>
                 <p id="progressText">0% Complete</p>
             </div>
@@ -742,8 +782,8 @@
                         <label><i class="fas fa-coins"></i> Amount</label>
                         <input type="number" id="currencyAmount" value="1000">
                     </div>
-                    <div style="text-align: center; margin-top: 25px;">
-                        <i class="fas fa-exchange-alt fa-2x" style="color: #667eea;"></i>
+                    <div>
+                        <i class="fas fa-exchange-alt"></i>
                     </div>
                     <div class="form-group">
                         <label><i class="fas fa-globe"></i> To Currency</label>
@@ -800,7 +840,7 @@
                 <label><i class="fas fa-calendar-times"></i> Expiry Date</label>
                 <input type="date" id="docExpiry">
             </div>
-            <div style="display: flex; gap: 10px; margin-top: 20px;">
+            <div class="document-form-actions">
                 <button class="btn" onclick="addDocument()"><i class="fas fa-plus"></i> Add Document</button>
                 <button class="btn btn-secondary" onclick="closeModal()"><i class="fas fa-times"></i> Cancel</button>
             </div>
@@ -925,8 +965,8 @@
 
             if (itineraryItems.length === 0) {
                 container.innerHTML = `
-                    <div class="card" style="text-align: center; padding: 40px;">
-                        <i class="fas fa-calendar-plus fa-3x" style="color: #667eea; margin-bottom: 20px;"></i>
+                    <div class="card empty-card">
+                        <i class="fas fa-calendar-plus fa-3x"></i>
                         <h3>No Activities Added Yet</h3>
                         <p>Start adding activities to build your itinerary</p>
                     </div>
@@ -941,8 +981,8 @@
                     <div class="actions">
                         <button class="btn btn-secondary btn-sm" onclick="removeItineraryItem(${item.id})"><i class="fas fa-trash"></i></button>
                     </div>
-                    <div style="display: flex; justify-content: between; align-items: start;">
-                        <div style="flex: 1;">
+                    <div class="itinerary-item-content">
+                        <div class="itinerary-item-details">
                             <h3>${item.name}</h3>
                             <p><strong><i class="fas fa-clock"></i> Time:</strong> ${item.time}</p>
                             <p><strong><i class="fas fa-map-marker-alt"></i> Location:</strong> ${item.location}</p>
@@ -955,7 +995,7 @@
                                     <span class="transport-badge"><i class="fas fa-taxi"></i> Taxi: 8-12 min</span>
                                     <span class="transport-badge"><i class="fas fa-walking"></i> Walk: 25 min</span>
                                 </div>
-                                <p style="margin-top: 10px; font-size: 14px; color: #666;">
+                                <p>
                                     <i class="fas fa-lightbulb"></i> Best route: Take Metro Line 2 → Transfer at Central Station → Bus 45A
                                 </p>
                             </div>
@@ -983,10 +1023,10 @@
             if (from && to) {
                 const container = document.getElementById('routeResults');
                 container.innerHTML = `
-                    <div class="card" style="margin-top: 20px;">
+                    <div class="card">
                         <h3><i class="fas fa-route"></i> Best Routes from ${from} to ${to}</h3>
                         
-                        <div class="route-info" style="margin-top: 15px;">
+                        <div class="route-info">
                             <h4><i class="fas fa-subway"></i> Metro Route (Recommended)</h4>
                             <p><strong><i class="fas fa-clock"></i> Duration:</strong> 25 minutes</p>
                             <p><strong><i class="fas fa-rupee-sign"></i> Cost:</strong> ₹40</p>
@@ -1204,8 +1244,8 @@
 
             if (documents.length === 0) {
                 container.innerHTML = `
-                    <div class="card" style="text-align: center; padding: 40px; grid-column: 1 / -1;">
-                        <i class="fas fa-file-alt fa-3x" style="color: #667eea; margin-bottom: 20px;"></i>
+                    <div class="card empty-card" style="grid-column: 1 / -1;">
+                        <i class="fas fa-file-alt fa-3x"></i>
                         <h3>No Documents Added</h3>
                         <p>Add your travel documents to keep track of their status</p>
                     </div>
@@ -1283,11 +1323,11 @@
             };
 
             document.getElementById('conversionResult').innerHTML = `
-                <div style="font-size: 1.5rem; margin: 10px 0;">
-                    <span style="font-weight: bold;">₹${amount}</span> = 
-                    <span style="font-weight: bold; color: #667eea;">${currencySymbols[toCurrency]}${converted.toFixed(2)}</span>
+                <div class="conversion-result">
+                    <span>₹${amount}</span> = 
+                    <span>${currencySymbols[toCurrency]}${converted.toFixed(2)}</span>
                 </div>
-                <div style="font-size: 0.9rem; color: #666;">
+                <div class="conversion-rate">
                     Exchange rate: 1 INR = ${currencySymbols[toCurrency]}${rates[toCurrency].toFixed(4)}
                 </div>
             `;
